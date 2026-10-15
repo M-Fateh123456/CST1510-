@@ -3,49 +3,75 @@ RECORD CHECK  -  my version
 ===========================
 
 Name  : Muhammad Fateh Laghari
-Lane  :  AI       (delete two)
-Date  : 26/09/2026
+Lane  :  AI 
+Date  :
 
 Run it:   python template.py
-
-Work through the numbered sections in order. Each one tells you what it must do.
-Delete these instructions as you replace them with your code.
 """
 
+# =================================================================== FUNCTIONS
+# 1. Write your functions here
+
+def status_of(percent):
+    if percent >= 100:
+        return "OVER LIMIT"
+    elif percent >= 90:
+        return "WARNING"
+    else:
+        return "OK"
+
+
+
+def check(value, limit):
+    difference = value - limit
+    percent = (value / limit) * 100
+    return difference, percent
+
+
+
+def print_report(label, value, limit, difference, percent, status):
+    print()
+    print("=" * 34)
+    print(f"  RECORD CHECK  -  {label}")
+    print("=" * 34)
+    print(f"Value:      {value}")
+    print(f"Limit:      {limit}")
+    print(f"Difference: {difference:>8.2f}")
+    print(f"Percent:    {percent:>8.2f}%")
+    print(f"Status:     {status}")
+    print("=" * 34)
+
+
 # ==================================================================== INPUT
+# 2. Ask for your three values.
 
-label = input("Please enter the hostname:   ")     
-first = float(input("Please enter the GB used:  "))     
-second = float(input("Please enter the Total GB: "))    
+over_count = 0
 
+while True:
+    label = input("Enter a label (or quit): ")
 
-# ================================================================== PROCESS
+    if label.lower() == "quit":
+        break
 
-difference = second - first
-percent = first / second * 100
-
-
-# =================================================================== OUTPUT
-
-print("=" * 34)
-print(f"  RECORD CHECK  -  {label}")
-print("=" * 34)
+    value = float(input("Enter the value: "))
+    limit = float(input("Enter the limit: "))
 
 
-print(f"  Used        : {first:>10.2f}")
-print(f"  Total       : {second:>10.2f}")
-print(f"  Free        : {difference:>10.2f}")
-print(f"  Percent     : {percent:>10.2f} %")
+    # ================================================================== PROCESS
+    # 3. Work out the difference, percentage, and status.
 
-# report lines go here
-
-print("=" * 34)
+    difference, percent = check(value, limit)
+    status = status_of(percent)
 
 
-# ==========================================================================
-# 4. Before you finish:
-#
-#    [ ] Run it three times with different numbers
-#    [ ] Run it with a total of 0 and write the error in your journal
-#    [ ] Check every variable name says what it holds
-#    [ ] Show it to the person next to you
+    # =================================================================== OUTPUT
+    # 4. Print the report.
+
+    print_report(label, value, limit, difference, percent, status)
+
+    if status == "OVER LIMIT":
+        over_count += 1
+
+
+print()
+print("Total OVER LIMIT:", over_count)
